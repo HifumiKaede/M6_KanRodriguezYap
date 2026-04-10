@@ -1,0 +1,7 @@
+<h1>Manage Account</h1>
+
+<p>Username: {{ user.username }}</p>
+
+<a href="{% url 'change_password' user.id %}">Change Password</a><br>
+<a href="{% url 'delete_account' user.id %}">Delete Account</a><br>
+<a href="{% url 'logout' %}">Logout</a>
