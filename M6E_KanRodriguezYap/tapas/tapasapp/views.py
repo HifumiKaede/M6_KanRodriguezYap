@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Dish, Account
 
-# Dish Crud
+# DISH CRUD SYSTEM
 
 def better_menu(request):
     dish_objects = Dish.objects.all()
@@ -10,14 +10,10 @@ def better_menu(request):
 
 def add_menu(request):
     if request.method == "POST":
-        dishname = request.POST.get('dname')
-        cooktime = request.POST.get('ctime')
-        preptime = request.POST.get('ptime')
-
         Dish.objects.create(
-            name=dishname,
-            cook_time=cooktime,
-            prep_time=preptime
+            name=request.POST.get('dname'),
+            cook_time=request.POST.get('ctime'),
+            prep_time=request.POST.get('ptime')
         )
         return redirect('better_menu')
 
@@ -27,11 +23,6 @@ def add_menu(request):
 def view_detail(request, pk):
     d = get_object_or_404(Dish, pk=pk)
     return render(request, 'tapasapp/view_detail.html', {'d': d})
-
-
-def delete_dish(request, pk):
-    Dish.objects.filter(pk=pk).delete()
-    return redirect('better_menu')
 
 
 def update_dish(request, pk):
@@ -45,8 +36,13 @@ def update_dish(request, pk):
 
     return render(request, 'tapasapp/update_menu.html', {'d': d})
 
-# AUTH SYSTEM
 
+def delete_dish(request, pk):
+    Dish.objects.filter(pk=pk).delete()
+    return redirect('better_menu')
+
+
+# AUTH SYSTEM
 
 def login_view(request):
     message = ""
@@ -58,7 +54,7 @@ def login_view(request):
         user = Account.objects.filter(username=username, password=password).first()
 
         if user:
-            return redirect('better_menu')
+            return redirect('basic_list', pk=user.id)  # ✅ FIXED HERE
         else:
             message = "Invalid login"
 
@@ -79,3 +75,40 @@ def signup_view(request):
             return redirect('login')
 
     return render(request, 'signup.html', {'message': message})
+
+
+def basic_list(request, pk):
+    return render(request, 'basic_list.html', {'pk': pk})
+
+
+def manage_account(request, pk):
+    user = Account.objects.get(id=pk)
+    return render(request, 'manage_account.html', {'user': user})
+
+
+def change_password(request, pk):
+    user = Account.objects.get(id=pk)
+    message = ""
+
+    if request.method == "POST":
+        current = request.POST.get('current')
+        new = request.POST.get('new')
+        confirm = request.POST.get('confirm')
+
+        if current == user.password and new == confirm:
+            user.password = new
+            user.save()
+            return redirect('manage_account', pk=pk)
+        else:
+            message = "Invalid input"
+
+    return render(request, 'change_password.html', {'user': user, 'message': message})
+
+
+def delete_account(request, pk):
+    Account.objects.get(id=pk).delete()
+    return redirect('login')
+
+
+def logout_view(request):
+    return redirect('login')
