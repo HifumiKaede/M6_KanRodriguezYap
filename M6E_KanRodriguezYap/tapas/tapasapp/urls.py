@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # ACCOUNT
+    # AUTH SYSTEM
     path('', views.login_view, name='login'),
     path('signup/', views.signup_view, name='signup'),
     path('basic_list/<int:pk>/', views.basic_list, name='basic_list'),
@@ -11,7 +11,7 @@ urlpatterns = [
     path('delete_account/<int:pk>/', views.delete_account, name='delete_account'),
     path('logout/', views.logout_view, name='logout'),
 
-    # DISH
+    # DISH CRUD SYSTEM
     path('menu/', views.better_menu, name='better_menu'),
     path('menu/add/', views.add_menu, name='add_menu'),
     path('menu/view/<int:pk>/', views.view_detail, name='view_detail'),
