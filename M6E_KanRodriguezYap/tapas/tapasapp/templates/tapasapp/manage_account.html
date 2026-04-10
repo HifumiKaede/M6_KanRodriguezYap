@@ -1,7 +1,31 @@
-<h1>Manage Account</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-<p>Username: {{ user.username }}</p>
+<body class="container mt-5">
 
-<a href="{% url 'change_password' user.id %}">Change Password</a><br>
-<a href="{% url 'delete_account' user.id %}">Delete Account</a><br>
-<a href="{% url 'logout' %}">Logout</a>
+    <h1>Manage Account</h1>
+
+    <div class="card p-3">
+
+        <p><strong>Username:</strong> {{ user.username }}</p>
+
+        <a href="{% url 'change_password' user.id %}" class="btn btn-warning mb-2">
+            Change Password
+        </a>
+
+        <a href="{% url 'delete_account' user.id %}" class="btn btn-danger mb-2">
+            Delete Account
+        </a>
+
+        <a href="{% url 'logout' %}" class="btn btn-secondary">
+            Logout
+        </a>
+
+    </div>
+
+</body>
+</html>
