@@ -1,0 +1,12 @@
+<h1>Signup</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="username">
+    <input type="password" name="password">
+    <button type="submit">Create Account</button>
+</form>
+
+<p style="color:red;">{{ message }}</p>
+
+<a href="{% url 'login' %}">Back to Login</a>
