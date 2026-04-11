@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Dish, Account
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .models import Account, Dish
+
 
 # DISH CRUD SYSTEM
 
@@ -46,19 +48,22 @@ def delete_dish(request, pk):
 
 def login_view(request):
     message = ""
+    success_message = request.GET.get('message', "")
 
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = Account.objects.filter(username=username, password=password).first()
 
         if user:
-            return redirect('basic_list', pk=user.id)  # ✅ FIXED HERE
-        else:
-            message = "Invalid login"
+            return redirect('basic_list', pk=user.id)
 
-    return render(request, 'login.html', {'message': message})
+        message = "Invalid login"
+
+    return render(request, 'tapasapp/login.html', {
+        'message': message,
+        'success_message': success_message,
+    })
 
 
 def signup_view(request):
@@ -72,25 +77,29 @@ def signup_view(request):
             message = "Account already exists"
         else:
             Account.objects.create(username=username, password=password)
-            return redirect('login')
+            return redirect('/?message=Account created successfully')
 
-    return render(request, 'signup.html', {'message': message})
+    return render(request, 'tapasapp/signup.html', {'message': message})
 
 
 def basic_list(request, pk):
-    return render(request, 'basic_list.html', {'pk': pk})
+    user = get_object_or_404(Account, pk=pk)
+    return render(request, 'tapasapp/basic_list.html', {'user': user})
 
 
 def manage_account(request, pk):
-    user = Account.objects.get(id=pk)
-    return render(request, 'manage_account.html', {'user': user})
+    user = get_object_or_404(Account, id=pk)
+    return render(request, 'tapasapp/manage_account.html', {'user': user})
 
 
 def change_password(request, pk):
-    user = Account.objects.get(id=pk)
+    user = get_object_or_404(Account, id=pk)
     message = ""
 
     if request.method == "POST":
+        if 'cancel' in request.POST:
+            return redirect('manage_account', pk=pk)
+
         current = request.POST.get('current')
         new = request.POST.get('new')
         confirm = request.POST.get('confirm')
@@ -99,14 +108,17 @@ def change_password(request, pk):
             user.password = new
             user.save()
             return redirect('manage_account', pk=pk)
-        else:
-            message = "Invalid input"
 
-    return render(request, 'change_password.html', {'user': user, 'message': message})
+        message = "Invalid input"
+
+    return render(request, 'tapasapp/change_password.html', {
+        'user': user,
+        'message': message,
+    })
 
 
 def delete_account(request, pk):
-    Account.objects.get(id=pk).delete()
+    get_object_or_404(Account, id=pk).delete()
     return redirect('login')
 
 

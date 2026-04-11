@@ -4,19 +4,22 @@
     <title>Basic List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
-<body class="container mt-5">
-
-    <h1>Welcome User</h1>
-    <p>Your ID: {{ pk }}</p>
-
-    <a href="{% url 'better_menu' %}" class="btn btn-primary">
-        Go to Menu
-    </a>
-
-    <a href="{% url 'manage_account' pk %}" class="btn btn-secondary">
-        Manage Account
-    </a>
-
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4 text-center">
+                        <h1 class="h3 mb-3">Basic List</h1>
+                        <p class="text-muted">Welcome, {{ user.username }}</p>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'manage_account' user.id %}" class="btn btn-primary">Manage Account</a>
+                            <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
