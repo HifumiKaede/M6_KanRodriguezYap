@@ -19,7 +19,27 @@ def view_bottles(request):
     return render(request, "view_bottles.html", {"water_bottles": bottles})
 
 def add_bottle(request):
+    if not request.session.get("account_id"):
+        return redirect("login")
+
     suppliers = Supplier.objects.all()
+
+    if request.method == "POST":
+        supplier = get_object_or_404(Supplier, pk=request.POST.get("supplied_by"))
+
+        WaterBottle.objects.create(
+            SKU=request.POST.get("sku"),
+            brand=request.POST.get("brand"),
+            cost=request.POST.get("cost"),
+            size=request.POST.get("size"),
+            mouth_size=request.POST.get("mouth_size"),
+            color=request.POST.get("color"),
+            supplied_by=supplier,
+            current_quantity=request.POST.get("current_quantity")
+        )
+
+        return redirect("view_bottles")
+
     return render(request, 'add_bottle.html', {'suppliers': suppliers})
 
 def login_view(request):
@@ -51,7 +71,19 @@ def manage_account(request, pk):
     return render(request, "manage_account.html", {"account": account})
 
 def view_bottle_details(request, pk):
-    return render(request, "view_bottle_details.html")
+    if not request.session.get("account_id"):
+        return redirect("login")
+
+    bottle = get_object_or_404(WaterBottle, pk=pk)
+    return render(request, "view_bottle_details.html", {"bottle": bottle})
+
+def delete_bottle(request, pk):
+    if not request.session.get("account_id"):
+        return redirect("login")
+
+    bottle = get_object_or_404(WaterBottle, pk=pk)
+    bottle.delete()
+    return redirect("view_bottles")
 
 def delete_account(request, pk):
     if not request.session.get("account_id"):
@@ -62,4 +94,28 @@ def delete_account(request, pk):
     return redirect("login")
 
 def change_password(request, pk):
-    return render(request, "change_password.html")
+    account = get_object_or_404(Account, pk=pk)
+    message = ""
+
+    if request.method == "POST":
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        # Check if current password is correct
+        if current_password != account.getPassword():
+            message = "Incorrect current password"
+
+        # Check if new passwords match
+        elif new_password != confirm_password:
+            message = "Passwords do not match"
+
+        else:
+            account.password = new_password
+            account.save()
+            return redirect('manage_account', pk=account.pk)
+
+    return render(request, 'change_password.html', {
+        'account': account,
+        'message': message
+    })

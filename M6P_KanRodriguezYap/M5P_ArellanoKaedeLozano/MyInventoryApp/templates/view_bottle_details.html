@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Water Bottle Details{% endblock %}
+
+{% block content %}
+
+<h2>Water Bottle Details</h2>
+
+<p><strong>SKU:</strong> {{ bottle.SKU }}</p>
+<p><strong>Brand:</strong> {{ bottle.brand }}</p>
+<p><strong>Cost:</strong> {{ bottle.cost }}</p>
+<p><strong>Size:</strong> {{ bottle.size }}</p>
+<p><strong>Mouth Size:</strong> {{ bottle.mouth_size }}</p>
+<p><strong>Color:</strong> {{ bottle.color }}</p>
+<p><strong>Supplier:</strong> {{ bottle.supplied_by.name }}</p>
+<p><strong>Current Quantity:</strong> {{ bottle.current_quantity }}</p>
+
+<a href="{% url 'delete_bottle' bottle.pk %}">
+    <button class="btn-danger">Delete</button>
+</a>
+
+<a href="{% url 'view_bottles' %}">
+    <button class="btn-secondary">Back</button>
+</a>
+
+{% endblock %}
