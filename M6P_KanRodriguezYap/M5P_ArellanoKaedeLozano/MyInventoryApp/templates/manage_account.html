@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Account{% endblock %}
+
+{% block content %}
+
+<h2>Manage Account</h2>
+
+<p style="margin-bottom: 20px; font-size: 15px;">Username: <strong>{{ account.username }}</strong></p>
+
+<a href="{% url 'change_password' account.pk %}">
+    <button class="btn-primary">Change Password</button>
+</a>
+
+<form method="POST" action="{% url 'delete_account' account.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="btn-danger">Delete Account</button>
+</form>
+
+<a href="{% url 'view_supplier' %}">
+    <button type="button" class="btn-secondary">Back</button>
+</a>
+
+{% endblock %}

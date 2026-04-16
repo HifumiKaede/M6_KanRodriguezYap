@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Add Water Bottle</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <p>
+        <label>SKU:</label><br>
+        <input type="text" name="sku">
+    </p>
+
+    <p>
+        <label>Brand:</label><br>
+        <input type="text" name="brand">
+    </p>
+
+    <p>
+        <label>Cost:</label><br>
+        <input type="text" name="cost">
+    </p>
+
+    <p>
+        <label>Size:</label><br>
+        <input type="text" name="size">
+    </p>
+
+    <p>
+        <label>Mouth Size:</label><br>
+        <input type="text" name="mouth_size">
+    </p>
+
+    <p>
+        <label>Color:</label><br>
+        <input type="text" name="color">
+    </p>
+
+    <p>
+        <label>Supplier:</label><br>
+        <select name="supplied_by">
+            {% for supplier in suppliers %}
+            <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+            {% endfor %}
+        </select>
+    </p>
+
+    <p>
+        <label>Current Quantity:</label><br>
+        <input type="number" name="current_quantity">
+    </p>
+
+    <button type="submit">Add Bottle</button>
+</form>
+
+<br>
+<a href="{% url 'view_supplier' %}"><button type="button" class="btn-secondary" style="width:auto; padding: 10px 16px;">Cancel</button></a>
+
+{% endblock %}

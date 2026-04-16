@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My Inventory System{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+        }
+
+        .error {
+            color: #c0392b;
+            background-color: #fde8e8;
+            border: 1px solid #f5c6cb;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #1a1a2e;
+        }
+
+        button {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background-color: #1a1a2e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2d2d4e;
+        }
+
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #cccccc;
+        }
+
+        .success {
+            color: #1e7e4e;
+            background-color: #e8f8f0;
+            border: 1px solid #b2dfdb;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        .btn-danger {
+    background-color: #c0392b;
+    color: white;
+}
+
+        .btn-danger:hover {
+            background-color: #a93226;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 10px 14px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover td {
+            background-color: #f5f5f5;
+        }
+        .card-wide {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 960px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="{% block card_class %}card{% endblock %}">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+from MyInventoryApp.models import Supplier, WaterBottle
+a. print(WaterBottle.objects.all()) #[PEDUCAKarl]
+b. print(Supplier.objects.order_by("country")) #[RODRIGUEZEric]
+c. print(WaterBottle.objects.order_by("brand")) #[RODRIGUEZEric]
+d. print(WaterBottle.objects.filter(color__iexact="black")) #[RODRIGUEZEric]
+e. print(WaterBottle.objects.filter(color__iexact="white", brand="HydroFlask"))#[OKOLOChonel]
+f. print(WaterBottle.objects.filter(supplied_by__name = "Sailfish, Inc.")) #[PEDUCAKarl]
+g. print(WaterBottle.objects.filter(color="blue", supplier__name="Bucky Inc"))#[OKOLOChonel]
+h. print(Supplier.objects.filter(country="Germany").values("name"))#[OKOLOChonel]
+i. print(WaterBottle.objects.filter(cost__gte=3000)) #[PEDUCAKarl]
+j. print(WaterBottle.objects.filter(supplied_by__name__in = ["Bucky, Inc.", "Meister, Inc."])) #[PEDUCAKarl]
+k. print(WaterBottle.objects.filter(size__icontains="Oz").order_by("-cost")) #[RODRIGUEZEric]
+l. print(WaterBottle.objects.filter(mouth_type="wide").exclude(cost=3000))#[OKOLOChonel]
+
+[P: PEDUCAKarl] all WaterBottles from Wilkins, Inc
+    [S: RODRIGUEZEric] print(WaterBottle.objects.filter(supplied_by__name="Wilkins, Inc"))
+[P: PEDUCAKarl] all red WaterBottles costing less than 3500
+    [S: RODRIGUEZEric] print(WaterBottle.objects.filter(color__iexact="red", cost__lt=3500))
+[P: PEDUCAKarl] all Standard Mouth WaterBottles costing more than 3000
+    [S: RODRIGUEZEric] print(WaterBottle.objects.filter(mouth_size__icontains="standard", cost__gt=3000))
+[P: PEDUCAKarl] all WaterBottles with more than 100 in quantities
+    [S: OKOLOChonel] print(WaterBottle.objects.filter(quantity__gt=100))
+[P: PEDUCAKarl] all transparent WaterBottles with alphabetical brand
+    [S: OKOLOChonel] print(WaterBottle.objects.filter(color__iexact="transparent").order_by("brand"))
+[P: PEDUCAKarl] all 18 and 24 Oz WaterBottles costing less than 3000  
+    [S: OKOLOChonel] print(WaterBottle.objects.filter(size__in=["18 Oz", "24 Oz"], cost__lt=3000))
+[P: RODRIGUEZEric] all AquaPure WaterBottles supplied by a supplier from Japan
+    [S: OKOLOChonel] print(WaterBottle.objects.filter(brand="AquaPure", supplier__country="Japan"))
+[P: RODRIGUEZEric] all WaterBottles supplied by suppliers located in Japan
+    [S: OKOLOChonel] print(WaterBottle.objects.filter(supplier__country="Japan"))
+[P: RODRIGUEZEric] all WaterBottles with low quantity (50 or below)
+    [S: OKOLOChonel] print(WaterBottle.objects.filter(quantity__lte=50))
+[P: RODRIGUEZEric] all WaterBottles with wide mouth that cost less than 3000
+[P: RODRIGUEZEric] all non-black WaterBottles costing 3000 or higher
+[P: RODRIGUEZEric] all WaterBottles measured in Oz supplied by a Japan based supplier
+[P: OKOLOChonel] all WaterBottles with a brand name starting with the letter "S"
+    [S: RODRIGUEZEric] print(WaterBottle.objects.filter(brand__istartswith="S"))
+[P: OKOLOChonel] all Suppliers not based in Asia
+     [S: RODRIGUEZEric] print(Supplier.objects.exclude(country__iexact="Japan"))
+[P: OKOLOChonel] all WaterBottles with quantities between 200 and 500
+    [S: RODRIGUEZEric] print(WaterBottle.objects.filter(current_quantity__range=(200, 500)))
+[P: OKOLOChonel] all WaterBottles supplied by companies whose names contain "Inc."
+[P: OKOLOChonel] all WaterBottles costing less than 2500, sorted by brand alphabetically
+[P: OKOLOChonel] all Suppliers whose name ends with "Corp"

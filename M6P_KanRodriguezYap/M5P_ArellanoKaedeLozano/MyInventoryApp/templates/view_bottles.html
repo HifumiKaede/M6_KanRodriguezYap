@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Water Bottles{% endblock %}
+
+{% block card_class %}card-wide{% endblock %}
+
+{% block content %}
+
+<h2>Water Bottles</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Brand</th>
+            <th>Cost</th>
+            <th>Size</th>
+            <th>Mouth Size</th>
+            <th>Color</th>
+            <th>Supplier</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in water_bottles %}
+        <tr onclick="window.location='{% url 'view_bottle_details' b.pk %}'" style="cursor:pointer;">
+            <td>{{ b.SKU }}</td>
+            <td>{{ b.brand }}</td>
+            <td>{{ b.cost }}</td>
+            <td>{{ b.size }}</td>
+            <td>{{ b.mouth_size }}</td>
+            <td>{{ b.color }}</td>
+            <td>{{ b.supplied_by.name }}</td>
+            <td>{{ b.current_quantity }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="8">No water bottles found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<a href="{% url 'view_supplier' %}"><button class="btn-secondary" style="width:auto; padding: 10px 16px;">Back</button></a>
+
+{% endblock %}
